@@ -1,0 +1,14 @@
+{
+    "name": "api-helper",
+    "version": "1.0.0",
+    "description": "an api tool",
+    "main": "ApiHelper.js",
+    "scripts": {
+      "start": "NODE_PATH=lib node index.js"
+    },
+    "author": "amuliang",
+    "license": "ISC",
+    "keywords": [
+      "api"
+    ]
+  }

@@ -1,0 +1,15 @@
+{
+    "name": "defineclass",
+    "version": "1.0.0",
+    "description": "You can create class and inherit class",
+    "main": "defineClass.js",
+    "scripts": {
+      "start": "NODE_PATH=lib node index.js"
+    },
+    "author": "amuliang",
+    "license": "ISC",
+    "keywords": [
+      "define",
+      "class"
+    ]
+  }
