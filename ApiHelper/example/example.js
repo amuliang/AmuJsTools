@@ -27,9 +27,9 @@ const MyContext = defineClass(function MyContext() {
     }
 
 }).protoProps({
-    getArg(name) {
-        return this.request[name];
-    }
+    // getArg(name) {
+    //     return this.request[name];
+    // }
 
 }).extend(ApiContextBase).create();
 

@@ -1,6 +1,7 @@
 const defineClass = require("../defineClass");
 const ApiUnit = require("./ApiUnit");
 const ApiContextBase = require("./ApiContextBase");
+const ApiException = require("./ApiException");
 
 
 
@@ -34,19 +35,42 @@ const ApiContainer = defineClass(function ApiContainer(context_type) {
 
         var actions = ctx.url.split("/");
         var node = this.root;
-        if(actions[0] != this.root.name) return null;
-        for(var i = 1; i < actions.length; i++) {
-            var action = actions[i];
-            if(node.children[action]) {
-                node = node.children[action];
-            }else {
-                return null;
+        if(actions[0] != this.root.name) {
+            node = null;
+        }else {
+            for(var i = 1; i < actions.length; i++) {
+                var action = actions[i];
+                if(node.children[action]) {
+                    node = node.children[action];
+                }else {
+                    node = null;
+                    break;
+                }
             }
         }
 
-        ctx.testArgs(node.args);
-        if(callback instanceof Function) ctx.callback = callback;
-        var result = node.body(ctx);
+        if(callback instanceof Function) {
+            ctx.callback = callback;
+        }
+        var result = null;
+        try {
+            if(node == null) {
+                throw new ApiException(0, `未找到接口${ctx.url}`);
+            }else {
+                if(!(node.body instanceof Function)) {
+                    throw new ApiException(0, `接口${ctx.url}没有函数体`);
+                }
+                ctx.testArgs(node.args);
+                result = node.body(ctx);
+            }
+        }catch(e) {
+            if(e instanceof ApiException) {
+                result = e;
+                ctx.callback(null, e);
+            }else {
+                throw new Error(e.message);
+            }
+        }
         return result;
     }
 }).create();

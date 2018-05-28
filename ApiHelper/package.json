@@ -4,7 +4,8 @@
     "description": "an api tool",
     "main": "ApiHelper.js",
     "scripts": {
-      "start": "NODE_PATH=lib node index.js"
+      "start": "NODE_PATH=lib node index.js",
+      "test": "mocha test/test.js"
     },
     "author": "amuliang",
     "license": "ISC",

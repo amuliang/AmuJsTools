@@ -139,12 +139,12 @@
     function _addProps(target, props, config, notSelf, notObj) {
         if (!props) return;
 
-        config = config || {
+        config = Object.assign({
             enumerable: true, // 优先设为可枚举
             configurable: true, // 优先设为可配置，可删除，这是比较常规方式
             writable: true, // 优先设为可写，毕竟只读属性很少
             override: false // 优先设为不可重写
-        }
+        }, config);
 
         for (var key in props) {
             var descriptor = props[key];
@@ -160,7 +160,7 @@
                     parsed_descriptor.get = descriptor.get;
                     if("set" in descriptor) parsed_descriptor.set = descriptor.set;
                 }else {
-                    throw new Error(`属性${key}错误：属性描述其必须包含value或get属性`);
+                    throw new Error(`属性${key}错误：属性描述器必须包含value或get属性`);
                 }
                 parsed_descriptor.override = typeof descriptor.override != "undefined" ? descriptor.override : config.override;
             } else { // 如果描述器不是个对象，则视为属性值
@@ -194,7 +194,7 @@
                 throw new Error(`${target.__proto__.constructor.name}必须重写继承属性${key}`);
             }
             // 如果已经有同名属性，则将value改为目前的值
-            if(target.hasOwnProperty(key) && target[key] != undefined && parsed_descriptor.value != undefined) { 
+            if(target.hasOwnProperty(key) && typeof(target[key]) != "undefined" && typeof(parsed_descriptor.value) != "undefined") { 
                 parsed_descriptor.value = target[key];
             }
             // 定义属性

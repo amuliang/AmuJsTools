@@ -17,7 +17,7 @@ const ApiUnit = defineClass(function ApiUnit(config, body) {
         return {};
     },
     body() {
-        return ctx => {};
+        return null;
     },
     return() {
         return {
@@ -88,6 +88,32 @@ const ApiUnit = defineClass(function ApiUnit(config, body) {
         }
         this.children[api_unit.name] = api_unit;
         return api_unit;
+    },
+    getApiJson() {
+        var root = {};
+        root.name = this.name;
+        root.description = this.description;
+        root.args = {};
+        for(var key in this.args) {
+            var arg_json = {};
+            var arg = this.args[key];
+            arg_json.name = arg.name;
+            arg_json.type = arg.data_type;
+            arg_json.description = arg.description;
+            arg_json.default = arg.default;
+            arg_json.level = arg.level;
+            arg_json.example = arg.examples[0] || null;
+            arg_json.examples = arg.examples;
+            root.args[key] = arg_json;
+        }
+        root.children = {};
+        for(var key in this.children) {
+            root.children[key] = this.children[key].getApiJson();
+        }
+        root.return_description = this.return.description;
+        root.return_example = this.return.examples[0] || null;
+        root.return_examples = this.return.examples;
+        return root;
     }
 
 }).create();

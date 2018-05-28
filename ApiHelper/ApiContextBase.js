@@ -2,8 +2,7 @@ const defineClass = require("../defineClass");
 
 
 
-const ApiContextBase = defineClass(function ApiContextBase(config) {
-    
+const ApiContextBase = defineClass(function ApiContextBase() {
     this.__init__();
 
 }).props({
@@ -15,7 +14,7 @@ const ApiContextBase = defineClass(function ApiContextBase(config) {
         writable: true
     },
     callback() {
-        return value => {};
+        return (value, error) => {};
     }
 
 }).protoProps({
@@ -30,8 +29,8 @@ const ApiContextBase = defineClass(function ApiContextBase(config) {
         },
         override: true
     },
-    response(res) {
-        this.callback(res);
+    response(res, error) {
+        this.callback(res, error);
     }
 
 }).create();
