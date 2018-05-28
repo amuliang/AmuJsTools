@@ -4,7 +4,8 @@
     "description": "You can create class and inherit class",
     "main": "defineClass.js",
     "scripts": {
-      "start": "NODE_PATH=lib node index.js"
+      "start": "NODE_PATH=lib node index.js",
+      "test": "mocha test/test.js"
     },
     "author": "amuliang",
     "license": "ISC",

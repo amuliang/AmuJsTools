@@ -62,7 +62,7 @@ describe('继承ApiContextBase类', function() {
     });
     it('不重写getArg报错', function() {
         var has_error = false;
-        // try {
+        try {
             var MyContext = defineClass(function MyContext() {
                 this.__init__();
             }).props({
@@ -70,16 +70,16 @@ describe('继承ApiContextBase类', function() {
                     return null;
                 }
             }).protoProps({}).extend(ApiContextBase).create();
-        // }catch(e) {
-        //     has_error = true;
-        // }
+        }catch(e) {
+            has_error = true;
+        }
         assert.equal(true, has_error);
     });
 });
 
 describe('创建容器', function() {
     it('创建一个容器，注册根节点', function() {
-        const MyContext = defineClass(function MyContext() {
+        var MyContext = defineClass(function MyContext() {
             this.__init__();
         }).props({
             request() {
